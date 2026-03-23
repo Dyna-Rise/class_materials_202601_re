@@ -1,0 +1,10 @@
+VisualStudioCodeショートカット
+
+行複製
+Alt + Shift + ↓
+
+コメント化
+Ctl+ /
+
+自動整列
+Alt + Shift + F
