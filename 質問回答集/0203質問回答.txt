@@ -1,0 +1,24 @@
+・表題の通り自宅でメインに使っているデスクトップPCにSourcetreeを導入して
+　JewelryHunter_Worldのプロジェクトフォルダのクローンを作成しました。
+
+「SunnyLand Artwork」フォルダの中身をクローン作製後に手動でコピーしてきたところ、
+Unity EditorでSunnyLandのAssetを読み込んで、
+Sourcetreeの方で下記2ファイルが「作業ツリーのファイル」欄に表示されました。
+・ProjectSettings/EditorBuildSettings.asset
+・ProjectSettings/ShaderGraphSettings.asset
+この2ファイルはコミットする必要のないものと認識してますが、お間違いないでしょうか。
+(※ただ単にSunnyLandのAssetを後から読み込んだだけの違いと思っております。)
+
+→その通りです
+また「作業ツリーのファイル」に残った上記2ファイルはインデックスに追加せず残したままで問題ないでしょうか。
+
+→問題内です。
+.gitignore
+/ProjectSettings/EditorBuildSettings.asset
+/ProjectSettings/ShaderGraphSettings.asset
+
+
+・UnityのRigidbody2DのlinearVelocityがぴったしの数字にならない
+
+→摩擦など演算している影響で、インスペクターにあらわされる結果値はきれいな数字ではない
+※解決方法は様々

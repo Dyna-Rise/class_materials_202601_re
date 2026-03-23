@@ -1,0 +1,49 @@
+・VSCodeのsettings.jsonの記述について
+
+→ご確認ありがとうございます。先日お渡しした貼り付けは最後の「｝」が不足していたので
+付け足していただいて結構です。
+※末尾に張り付けしていただく分には、七色は機能しているかと思いますが
+　文法的には不足しているので、｝を付け足していただくのが正しいです！
+
+"workbench.colorCustomizations": {
+    "editorIndentGuide.background1": "#b22222",
+    "editorIndentGuide.background2": "#ff4500",
+    "editorIndentGuide.background3": "#ffd700",
+    "editorIndentGuide.background4": "#228b22",
+    "editorIndentGuide.background5": "#000080",
+    "editorIndentGuide.background6": "#8b008b",
+    "editorIndentGuide.activeBackground1": "#fff",
+    "editorIndentGuide.activeBackground2": "#fff",
+    "editorIndentGuide.activeBackground3": "#fff",
+    "editorIndentGuide.activeBackground4": "#fff",
+    "editorIndentGuide.activeBackground5": "#fff",
+    "editorIndentGuide.activeBackground6": "#fff"
+
+
+・スペースの「・」について
+→設定画面（<Ctl + ,>か左下歯車から）にて「Render Whitespace」で検索、選択肢を「all」にする
+　参考URLに追記
+
+
+・
+本日、Visual Studio CodeのDLと初期設定などを自宅のデスクトップPCで実施しました。
+通学が必要な日に学校に持参するノートPCにも同じようにVScodeが必要かと思いますが、
+(今後使う別のツールにおいても)自分のタイミングでノートPCに同じようにDLや設定など進めてしまってよいでしょうか。
+
+全体に指示いただける予定があるのであれば、待ちますので問題ありません。
+PC間の共有フォルダ作成もしないといけないかなと少し悩んだのと、
+授業中結構細かく指示をいただけていたので先走って動くよりまずは確認と思い、現時点でのご相談になります。
+（全体指示が無い場合、復習のつもりで授業後都度ノートPCの環境準備を進めていくつもりです）
+
+→ご対応ありがとうございます。
+持参パソコンへの導入については、自宅と同じように来月通室にあわせて準備しておいていただきたいです。
+
+※20日は就活講座なのでツール使わない
+
+〇VisualStudioCode
+
+今後
+〇Chrome（授業中に案内予定）
+〇SourceTree（授業中に案内予定）
+〇VisualStudio（授業中に案内予定）
+〇UnityHub、UnityEditor（期限までにいったん自分で進めてもらうが、状況確認して授業中にフォロー予定）

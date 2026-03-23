@@ -1,0 +1,122 @@
+JewelryHunter_Worldにて現在抱えております3点についてAIに相談するなどして下記3点出してみました。
+問題ないかご確認お願いいたします。
+
+⇒いずれもご見解の通りでOKです！
+
+
+①Bossシーンにてボス撃破後に「GAME CLEAR!」等のUIが正常に表示されない件の修正案
+→AIにコードを見せつつ相談したところ、原因は「UpdateでUIを表示する前に、LateUpdateが状態をGameEndに変えてしまったため、表示条件をすり抜けていた」とのことでした。
+これを解決する場合、UI表示をメソッド化するなど現コードの大幅な改良が必要になるため、
+Invokeメソッドを使ってGameManager内のLateUpdate内の「gameState = GameState.GameEnd;」の処理を0.1秒ほど遅らせると適切にUI表示されました。
+
+0.1秒待つなどの処理はScratchではよくやっていたことだと思いますが、Unityでも使って問題ないでしょうか。
+
+■GameManager.cs
+(変更前)
+void LateUpdate()
+{
+if (gameState == GameState.GameClear)
+{
+soundPlayer.Stop(); // ステージ曲を止める
+soundPlayer.PlayOneShot(meGameClear); // ゲームクリアの音を1回だけ鳴らす
+isGameClear = true; // ゲームクリアフラグを立てる
+gameState = GameState.GameEnd; // ゲームの状態を更新
+}
+else if (gameState == GameState.GameOver)
+{
+soundPlayer.Stop(); // ステージ曲を止める
+soundPlayer.PlayOneShot(meGameOver); // ゲームオーバーの音を1回だけ鳴らす
+isGameOver = true; // ゲームオーバーフラグを立てる
+gameState = GameState.GameEnd; // ゲームの状態を更新
+}
+}
+
+(変更後)
+void LateUpdate()
+{
+if (gameState == GameState.GameClear)
+{
+soundPlayer.Stop(); // ステージ曲を止める
+soundPlayer.PlayOneShot(meGameClear); // ゲームクリアの音を1回だけ鳴らす
+isGameClear = true; // ゲームクリアフラグを立てる
+//gameState = GameState.GameEnd; // ゲームの状態を更新
+Invoke("GameStateChangeToGameEnd", 0.1f);
+}
+else if (gameState == GameState.GameOver)
+{
+soundPlayer.Stop(); // ステージ曲を止める
+soundPlayer.PlayOneShot(meGameOver); // ゲームオーバーの音を1回だけ鳴らす
+isGameOver = true; // ゲームオーバーフラグを立てる
+//gameState = GameState.GameEnd; // ゲームの状態を更新
+Invoke("GameStateChangeToGameEnd", 0.1f);
+}
+}
+
+void GameStateChangeToGameEnd()
+{
+gameState = GameState.GameEnd;
+}
+
+②復活したItemBoxを開けるともう一つItemBoxが補充されるバグ修正
+こちらもAIと相談したところ、「すでに復活させた箱があるかどうかを判定する専用のフラグを導入すること」が良いとのことでした。
+
+試しにArrowGenerator.csに復活待機中フラグとして変数「isWaitingForRecovery」を追加し、下記のようにUpdate()関数を変えたところ、ItemBox復活は1個のみになりました。
+この変更にて問題ないか、ご確認お願いいたします。
+
+■ArrowGenerator.cs
+※変数追加
+private bool isWaitingForRecovery = false; // 復活待機中フラグ
+
+void Update()
+{
+// Playerが存在しなければ何もしない
+if (player == null) return;
+
+// 矢があり、かつ待機中ならフラグを下ろす(矢を補充した瞬間にリセット)
+if (GameManager.arrows > 0)
+{
+isWaitingForRecovery = false;
+}
+
+// 矢が0、かつ、まだ復活処理を行っていない場合
+if (GameManager.arrows <= 0 && !isWaitingForRecovery)
+{
+// 全ItemBoxをチェック
+for (int i = 0; i < objects.Length; i++)
+{
+if (objects[i].GetComponent<Advent_ItemBox>().isClosed)
+{
+// すでに閉まっている箱があるなら、今は何もしない
+return;
+}
+}
+
+int index = Random.Range(0, objects.Length); // 0番以上 objects配列の数未満 のランダム
+objects[index].GetComponent<Advent_ItemBox>().isClosed = true; // Close(アイテム未取得)の復活
+objects[index].GetComponent<SpriteRenderer>().sprite = itemBoxClose; // 絵を閉じた絵に変更
+
+// 復活させたので、次に矢が増えるまでこのブロックに入らないようにする
+isWaitingForRecovery = true;
+}
+}
+
+③WorldMapでのPlayerの左向きの判断する条件文の修正
+教科書P.289にてアニメーションの向きと角度についてまとめた図がありましたが、これを参考に下記の通り左向きとなるif文の条件式を変えたところ、こちらではうまくいきました。
+問題ないかご確認お願いいたします。
+
+(変更後)
+Direction AngleToDirection()
+{
+～省略～
+else if ((angleZ >= 91 && angleZ <= 180) || (angleZ >= -180 && angleZ <= -91))
+{
+dir = Direction.left;
+～省略～
+
+左真横が180かつ-180でもあるので、「||」で条件を2つ記載する必要があると思いました。
+
+
+
+
+
+
